@@ -1,6 +1,8 @@
 <#
 .SYNOPSIS
    VMware Backups
+.AUTHOR
+	http://www.simonlong.co.uk/blog/2010/05/05/powercli-a-simple-vm-backup-script/
 .DESCRIPTION
    <A detailed description of the script>
 .PARAMETER <paramName>
