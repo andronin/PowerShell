@@ -1,1 +1,1 @@
-Collection of Windows PowerShell scripts
+Collection of Windows PowerShell goodies
