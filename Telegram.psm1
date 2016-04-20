@@ -8,16 +8,15 @@
         www.kimwhite.co.za
 
     .Changelog
-        2016-04-01
+        2016-04-20
             v 1.0.0
-            Sends Telegram messages using the bot api
-            Requires a csv file called TelegramBots.txt in the format
-                BOTNAME,BOTID,APIKEY,ChatID
-
+            
             
     .DESCRIPTION
-        
-    
+        Sends Telegram messages using the bot api
+            Requires a csv file called TelegramBots.txt in the format
+                BOTNAME,BOTID,APIKEY,ChatID
+            The module will iterate though all bots listed and send a message using each
 
     . STATUS
         Working
