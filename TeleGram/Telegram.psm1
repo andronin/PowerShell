@@ -1,7 +1,6 @@
 <#
     .SYNOPSIS
-        Set of functions to monitor Cisco UCS fabric
-
+        Telegram bot poster
 
     .AUTHOR
         Kim White
@@ -17,6 +16,7 @@
             Requires a csv file called TelegramBots.txt in the format
                 BOTNAME,BOTID,APIKEY,ChatID
             The module will iterate though all bots listed and send a message using each
+        Modify the $TG_BotsPath to where you put the TelegramBots.txt file
 
     . STATUS
         Working
@@ -25,7 +25,7 @@
         
 
     .TODO
-        Make this a PS module
+        Allow cmd line options for Bots variables as well
    
     .EXAMPLE
         
@@ -48,6 +48,6 @@ function SendTelegram
     $JSONtoSend = ConvertTo-Json -InputObject $body
     Invoke-RestMethod -Method Post -TimeoutSec 3 -Uri $TelegramURL -Body (($JSONtoSend)) -ContentType "application/json; charset=utf-8" -Proxy $proxyserver
 }
-
-$TG_BotsFile = "TelegramBots.txt"
+$TG_BotsPath = "Path\To\Bots\File"
+$TG_BotsFile = "$TG_BotsPath\TelegramBots.txt"
 $TG_Bots = Import-Csv $TG_BotsFile
