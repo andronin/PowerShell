@@ -1,6 +1,25 @@
 $WorkdnsSuffix = "work.dns.suffix"
 $HomednsSuffix = "home.dns.suffix"
 
+$shell = $Host.UI.RawUI
+if((whoami /all | Select-String S-1-16-12288) –ne $null) #if admin
+{
+        $shell.WindowTitle="Admin Elevated PowerShell"
+        $shell.ForegroundColor = "Red"
+        #Set the prompt to say admin
+        function prompt
+        {
+                $(if (test-path variable:/PSDebugContext) { '[DBG]: ' }
+                else { "ADMIN PS [$env:COMPUTERNAME] " }) + $(Get-Location) `
+                + $(if ($nestedpromptlevel -ge 1) { '>>' }) + '> '
+        } 
+}
+else #not admin
+{
+        $shell.WindowTitle="Non-Elevated PowerShell Session"
+        $shell.ForegroundColor = "Green"
+}
+
 #Change git working folder depending on dnsSuffix defined above
 if ( (Get-DnsClient).ConnectionSpecificSuffix -contains $dnsSuffix )
 {
