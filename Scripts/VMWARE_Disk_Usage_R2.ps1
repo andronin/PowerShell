@@ -28,8 +28,7 @@
         
    
     .EXAMPLE
-        Send-Telegram -Message " Sent <b>without options</b> " -parse_mode html
-        Send-Telegram -Message " Sent *with bot* options " -botid 12345678 -APIKEY "ThisIsMyBotAPIKey" -ChatID ReplaceWithChatID -parse_mode markdown
+        
         
     #>
 
