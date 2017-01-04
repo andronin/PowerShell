@@ -1,6 +1,6 @@
 <#
     .SYNOPSIS
-        Set of functions to monitor Cisco UCS fabric
+        Set of functions to Telegram messaging functions
 
 
     .AUTHOR
@@ -71,40 +71,38 @@ function Send-Telegram
         [Parameter(
             Mandatory=$false
         )]
-        [string]$ChatID
+        [string]$ChatID,
+        [Parameter(
+            Mandatory=$false
+        )]
+        [string]$ProxyServer
     )
-    if ($botid -eq "" )
-    {
-        foreach ( $TG_Bot in $TG_Bots )
-        {
-            $BotID = $TG_Bot.BOTID
-            $APIKey = $TG_Bot.APIKEY
-            $ChatID = $TG_Bot.ChatID
-            Write-Host " Using Bots File $BotID : $APIKEY :: to $ChatID" -ForegroundColor Yellow
-            $TelegramURL = "https://api.telegram.org/bot${BotID}:${APIKey}/SendMessage"
-            $Body = @{
-                chat_id = "$ChatID"
-                parse_mode = "$parse_mode"
-                text = "$Message"
-            }
+    Write-Host " Using CLI Options" -ForegroundColor Red
+    $TelegramURL = "https://api.telegram.org/bot${BotID}:${APIKey}/SendMessage"
+    $Body = @{
+        chat_id = "$ChatID"
+        parse_mode = "$parse_mode"
+        text = "$Message"
         }
-    }
-    else
-    {
-        Write-Host " Using CLI Options" -ForegroundColor Red
-        $TelegramURL = "https://api.telegram.org/bot${BotID}:${APIKey}/SendMessage"
-        $Body = @{
-            chat_id = "$ChatID"
-            parse_mode = "$parse_mode"
-            text = "$Message"
-    }
-
-    }
-    $Body
     $JSONtoSend = ConvertTo-Json -InputObject $body
-    Invoke-RestMethod -Method Post -TimeoutSec 3 -Uri $TelegramURL -Body (($JSONtoSend)) -ContentType "application/json; charset=utf-8" -Proxy $proxyserver
-}
 
-$TG_BotsPath = "Path\To\Bots\File"
-$TG_BotsFile = "$TG_BotsPath\TelegramBots.txt"
-$TG_Bots = Import-Csv $TG_BotsFile
+    Try
+    {
+        if ( $ProxyServer ) { Invoke-RestMethod -Method Post -TimeoutSec 3 -Uri $TelegramURL -Body (ConvertTo-Json -InputObject $body) -ContentType "application/json; charset=utf-8" -Proxy $proxyserver }
+        else { Invoke-RestMethod -Method Post -TimeoutSec 3 -Uri $TelegramURL -Body (ConvertTo-Json -InputObject $body) -ContentType "application/json; charset=utf-8" }
+    }
+    Catch # [System.Management.Automation.ActionPreferenceStopException]
+    {
+        Write-Host -ForegroundColor Red "Unable to send message"
+        Write-Host -ForegroundColor Cyan -NoNewline "Chat ID : "
+        Write-Host -ForegroundColor Yellow $ChatID
+        Write-Host -ForegroundColor Cyan -NoNewline "BOT ID  : "
+        Write-Host -ForegroundColor Yellow $BotID
+        Write-Host -ForegroundColor Cyan -NoNewline "API Key : "
+        Write-Host -ForegroundColor Yellow $APIKEY
+        Write-Host -ForegroundColor Cyan -NoNewline "Message : "
+        Write-Host -ForegroundColor Yellow $Message
+        break
+    }
+
+}
