@@ -22,6 +22,11 @@
                 Parsemode option to select https://core.telegram.org/bots/api#markdown-style
                     markdown
                     html
+        2016-04-01
+            v1.1
+                Removed csv support
+                added error handling
+                    
             
     .DESCRIPTION
         Sends Telegram messages using the bot api
