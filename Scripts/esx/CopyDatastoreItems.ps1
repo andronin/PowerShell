@@ -37,12 +37,12 @@ foreach ( $DatastoreName in $DatastoreNames )
     Get-Datastore $DatastoreName | New-PSDrive -Name temp -PSProvider VimDatastore -Root "\"
     IF ( Test-Path $DestinationPath$DatastoreName )
     {
-        Copy-DatastoreItem -Item temp:\$DatastorePath\* -Destination $DestinationPath\$DatastoreName -Recurse -Verbose -Force
+        Copy-DatastoreItem -Item temp:\$DatastorePath\* -Destination $DestinationPath\$DatastoreName -Recurse -Verbose 
     }
     ELSE
     {
         New-Item $DestinationPath\$DatastoreName -ItemType Directory -Verbose
-        Copy-DatastoreItem temp:\$DatastorePath\* -Destination $DestinationPath\$DatastoreName -Recurse -Verbose -Force
+        Copy-DatastoreItem temp:\$DatastorePath\* -Destination $DestinationPath\$DatastoreName -Recurse -Verbose
     }
     Remove-PSDrive temp
 }
