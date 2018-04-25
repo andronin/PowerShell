@@ -2,6 +2,8 @@ Collection of Windows PowerShell goodies
 - Module
 -- TeleGram
         Module to send message to a Telegram room using the Telegram BOT API
+-- VCDUserAdmin
+        Set of functions to help with managing vCloud Director ORG users
 - Scripts
 -- ServerUptimes.ps1
         Script to retrieve uptimes of servers from a list generated from AD
